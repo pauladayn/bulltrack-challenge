@@ -1,10 +1,15 @@
 import MainLayout from "@/components/layout/MainLayout";
-import { CloudCog } from "lucide-react";
+import { BullGrid } from "@/components/bulls";
+import BullToolbar from "@/components/bulls/BullToolbar";
+import { CloudCog, Download } from "lucide-react";
+import bullsData from "@/data/bulls_data.json";
+import { Bull } from "@/types/bulls";
 
 export default function Home() {
+  const bulls = bullsData.bulls as Bull[];
+
   return (
     <MainLayout>
-      {/* Header info */}
       <div className="flex flex-col gap-6">
         {/* Sync status */}
         <div className="flex items-center gap-2">
@@ -22,6 +27,7 @@ export default function Home() {
             </h1>
             <button className="flex items-center gap-2 px-3 py-2 bg-brand-green-dark rounded-lg h-8">
               <span className="text-xs font-semibold text-white">Exportar</span>
+              <Download className="w-6 h-6 text-white" />
             </button>
           </div>
           <p className="text-base text-text-primary">
@@ -29,12 +35,11 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Placeholder for content */}
-        <div className="bg-bg-tertiary rounded-lg p-4 mt-4">
-          <p className="text-text-primary">
-            🐂 Aquí irán las BullCards - Fase 5
-          </p>
-        </div>
+        {/* Toolbar */}
+        <BullToolbar totalResults={bulls.length} />
+
+        {/* Bull cards */}
+        <BullGrid bulls={bulls} />
       </div>
     </MainLayout>
   );
