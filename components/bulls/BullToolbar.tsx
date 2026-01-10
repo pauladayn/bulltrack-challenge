@@ -2,7 +2,8 @@
 
 import { SearchInput } from "@/components/ui";
 import { useFilters } from "@/context/FiltersContext";
-import { List, Grid } from "lucide-react";
+import { List, LayoutGrid } from "lucide-react";
+import { cn } from "@/lib/utils";
 import RankingCriteria from "./RankingCriteria";
 
 interface BullToolbarProps {
@@ -10,7 +11,7 @@ interface BullToolbarProps {
 }
 
 export default function BullToolbar({ totalResults }: BullToolbarProps) {
-  const { searchQuery, setSearchQuery } = useFilters();
+  const { searchQuery, setSearchQuery, viewMode, setViewMode } = useFilters();
 
   return (
     <div className="flex flex-col gap-2">
@@ -33,11 +34,37 @@ export default function BullToolbar({ totalResults }: BullToolbarProps) {
 
           {/* View toggle */}
           <div className="flex rounded-lg overflow-hidden">
-            <button className="px-6 py-2 bg-brand-green-dark">
-              <List className="w-6 h-6 text-white" />
+            <button
+              onClick={() => setViewMode("list")}
+              className={cn(
+                "px-6 py-2 transition-colors",
+                viewMode === "list"
+                  ? "bg-brand-green-dark"
+                  : "bg-border-light hover:bg-gray-300"
+              )}
+            >
+              <List
+                className={cn(
+                  "w-6 h-6",
+                  viewMode === "list" ? "text-white" : "text-text-primary"
+                )}
+              />
             </button>
-            <button className="px-6 py-2 bg-border-light">
-              <Grid className="w-6 h-6 text-text-primary" />
+            <button
+              onClick={() => setViewMode("grid")}
+              className={cn(
+                "px-6 py-2 transition-colors",
+                viewMode === "grid"
+                  ? "bg-brand-green-dark"
+                  : "bg-border-light hover:bg-gray-300"
+              )}
+            >
+              <LayoutGrid
+                className={cn(
+                  "w-6 h-6",
+                  viewMode === "grid" ? "text-white" : "text-text-primary"
+                )}
+              />
             </button>
           </div>
         </div>

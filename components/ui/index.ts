@@ -4,3 +4,4 @@ export { default as Toggle } from "./Toggle";
 export { default as SearchInput } from "./SearchInput";
 export { default as Modal } from "./Modal";
 export { default as Select } from "./Select";
+export { default as Toast } from "./Toast";

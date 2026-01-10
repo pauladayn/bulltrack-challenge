@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { OriginFilter, CoatFilter, SortOrder, FiltersState } from "@/types/bulls";
+import { OriginFilter, CoatFilter, SortOrder, ViewMode, FiltersState } from "@/types/filters";
 
 interface FiltersContextType extends FiltersState {
   setOrigin: (origin: OriginFilter) => void;
@@ -9,6 +9,7 @@ interface FiltersContextType extends FiltersState {
   setForHeifer: (forHeifer: boolean) => void;
   setSortOrder: (sortOrder: SortOrder) => void;
   setSearchQuery: (query: string) => void;
+  setViewMode: (viewMode: ViewMode) => void;
   toggleFavorite: (bullId: number) => void;
   isFavorite: (bullId: number) => boolean;
 }
@@ -22,6 +23,7 @@ const initialState: FiltersState = {
   sortOrder: "score_desc",
   searchQuery: "",
   favorites: [],
+  viewMode: "list",
 };
 
 export function FiltersProvider({ children }: { children: ReactNode }) {
@@ -31,6 +33,7 @@ export function FiltersProvider({ children }: { children: ReactNode }) {
   const [sortOrder, setSortOrder] = useState<SortOrder>(initialState.sortOrder);
   const [searchQuery, setSearchQuery] = useState(initialState.searchQuery);
   const [favorites, setFavorites] = useState<number[]>(initialState.favorites);
+  const [viewMode, setViewMode] = useState<ViewMode>(initialState.viewMode);
 
   const toggleFavorite = (bullId: number) => {
     setFavorites((prev) =>
@@ -51,11 +54,13 @@ export function FiltersProvider({ children }: { children: ReactNode }) {
         sortOrder,
         searchQuery,
         favorites,
+        viewMode,
         setOrigin,
         setCoat,
         setForHeifer,
         setSortOrder,
         setSearchQuery,
+        setViewMode,
         toggleFavorite,
         isFavorite,
       }}

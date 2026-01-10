@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Eye, Heart } from "lucide-react";
 import { Bull } from "@/types/bulls";
 import { useFilters } from "@/context/FiltersContext";
@@ -14,6 +15,12 @@ interface BullCardProps {
   bull: Bull;
   rank: number;
 }
+
+// Rotar entre las 3 imágenes disponibles
+const getBullImage = (id: number) => {
+  const imageIndex = (id % 3) + 1;
+  return `/images/bulls/bull-${imageIndex}.png`;
+};
 
 export default function BullCard({ bull, rank }: BullCardProps) {
   const { toggleFavorite, isFavorite } = useFilters();
@@ -36,9 +43,16 @@ export default function BullCard({ bull, rank }: BullCardProps) {
 
         {/* Bull info section */}
         <div className="flex items-center gap-6 p-2 shrink-0">
-          {/* Image placeholder */}
-          <div className="w-[83px] h-[72px] rounded-lg bg-gray-300 shrink-0 overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-br from-amber-700 to-amber-900" />
+          {/* Bull image */}
+          <div className="w-[83px] h-[72px] rounded-lg shrink-0 overflow-hidden">
+            <Image
+              src={getBullImage(bull.id)}
+              alt={`Toro ${bull.caravana}`}
+              width={83}
+              height={72}
+              className="w-full h-full object-cover"
+              unoptimized
+            />
           </div>
 
           {/* Info */}

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { X } from "lucide-react";
 import { Bull } from "@/types/bulls";
 import { Modal } from "@/components/ui";
@@ -12,6 +13,12 @@ interface BullDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+// Rotar entre las 3 imágenes disponibles
+const getBullImage = (id: number) => {
+  const imageIndex = (id % 3) + 1;
+  return `/images/bulls/bull-${imageIndex}.png`;
+};
 
 export default function BullDetailModal({
   bull,
@@ -33,8 +40,15 @@ export default function BullDetailModal({
         <div className="flex items-center justify-between p-6 border-b border-border-light">
           <div className="flex items-center gap-4">
             {/* Bull image */}
-            <div className="w-20 h-20 rounded-xl bg-gray-300 overflow-hidden">
-              <div className="w-full h-full bg-gradient-to-br from-amber-700 to-amber-900" />
+            <div className="w-20 h-20 rounded-xl overflow-hidden">
+              <Image
+                src={getBullImage(bull.id)}
+                alt={`Toro ${bull.caravana}`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
             </div>
 
             {/* Info */}

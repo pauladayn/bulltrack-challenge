@@ -26,12 +26,18 @@ export default function Header() {
 
           {/* Avatar */}
           <div className="relative w-14 h-14">
-            <div className="w-14 h-14 rounded-full bg-gray-300 overflow-hidden">
-              {/* Placeholder avatar - podés reemplazar con una imagen real */}
-              <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400" />
+            <div className="w-14 h-14 rounded-full overflow-hidden">
+              <Image
+                src="/images/avatar.png"
+                alt="Usuario"
+                width={56}
+                height={56}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
             </div>
             {/* Online indicator */}
-            <div className="absolute bottom-0 right-0 w-4 h-4 bg-brand-green rounded-full border-2 border-white" />
+            <div className="absolute bottom-0 right-0 w-4 h-4 bg-brand-green rounded-full border-2 border-sidebar" />
           </div>
         </div>
       </div>
