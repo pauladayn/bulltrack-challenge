@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import OnboardingModal from "@/components/layout/OnboardingModal";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -23,6 +24,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
             {children}
           </div>
         </main>
+        <OnboardingModal />
       </div>
     </div>
   );
