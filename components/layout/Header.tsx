@@ -8,11 +8,11 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 h-[88px] bg-sidebar z-50">
       <div className="flex items-center justify-between h-full px-10">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-[13px]">
           <div className="w-10 h-10 bg-brand-green rounded-3xl flex items-center justify-center">
-            <span className="text-lg font-semibold text-[#393939]">B</span>
+            <span className="text-[18px] font-semibold text-[#393939]">B</span>
           </div>
-          <span className="text-lg font-semibold text-white">Bulltrack</span>
+          <span className="text-[18px] font-semibold text-white">Bulltrack</span>
         </div>
 
         {/* Right side - Location & Avatar */}

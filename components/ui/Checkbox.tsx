@@ -16,13 +16,14 @@ export default function Checkbox({ checked, onChange, label, className }: Checkb
       type="button"
       onClick={() => onChange?.(!checked)}
       className={cn(
-        "flex items-center gap-3 w-full",
+        "flex items-center gap-3 shrink-0",
+        label && "w-full",
         className
       )}
     >
       <div
         className={cn(
-          "w-6 h-6 rounded-lg border-[1.5px] flex items-center justify-center transition-colors",
+          "w-6 h-6 rounded-[8px] border-[1.5px] flex items-center justify-center transition-colors shrink-0",
           checked
             ? "bg-brand-green border-brand-green"
             : "border-brand-green bg-transparent"

@@ -103,7 +103,7 @@ export default function OnboardingModal() {
             <span className="text-sm font-semibold text-modal-button-accent">
               Ver ranking
             </span>
-            <ArrowRight className="w-5 h-5 text-modal-button-accent" />
+            <ArrowRight className="w-5 h-5 text-modal-button-accent" strokeWidth={1.5} />
           </button>
         </div>
       </div>

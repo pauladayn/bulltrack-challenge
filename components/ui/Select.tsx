@@ -47,7 +47,7 @@ export default function Select({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-sidebar-card flex items-center justify-between px-3 py-4 rounded-lg h-14 w-full"
+        className="bg-sidebar-card flex items-center justify-between px-3 py-4 rounded-[8px] h-14 w-full"
       >
         <span className="text-sm text-white">
           {selectedOption?.label || placeholder}
@@ -62,7 +62,7 @@ export default function Select({
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-sidebar-card rounded-lg border border-sidebar-border overflow-hidden z-50">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-sidebar-card rounded-[8px] border border-sidebar-border overflow-hidden z-50">
           {options.map((option) => (
             <button
               key={option.value}
