@@ -2,7 +2,8 @@
 
 import { SearchInput } from "@/components/ui";
 import { useFilters } from "@/context/FiltersContext";
-import { Info, ChevronDown, List, Grid } from "lucide-react";
+import { List, Grid } from "lucide-react";
+import RankingCriteria from "./RankingCriteria";
 
 interface BullToolbarProps {
   totalResults: number;
@@ -14,17 +15,7 @@ export default function BullToolbar({ totalResults }: BullToolbarProps) {
   return (
     <div className="flex flex-col gap-2">
       {/* Ranking criteria accordion */}
-      <div className="bg-bg-tertiary rounded-lg p-4">
-        <div className="flex items-center justify-between cursor-pointer">
-          <div className="flex items-center gap-2">
-            <Info className="w-6 h-6 text-text-primary" />
-            <span className="text-base font-bold text-text-primary">
-              Criterios del ranking
-            </span>
-          </div>
-          <ChevronDown className="w-6 h-6 text-text-primary" />
-        </div>
-      </div>
+      <RankingCriteria />
 
       {/* Search and view toggle */}
       <div className="bg-bg-tertiary rounded-lg p-4">

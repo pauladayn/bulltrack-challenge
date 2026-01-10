@@ -2,11 +2,11 @@ import MainLayout from "@/components/layout/MainLayout";
 import { BullGrid } from "@/components/bulls";
 import BullToolbar from "@/components/bulls/BullToolbar";
 import { CloudCog, Download } from "lucide-react";
-import bullsData from "@/data/bulls_data.json";
-import { Bull } from "@/types/bulls";
+import { getBulls } from "./actions/bulls";
 
-export default function Home() {
-  const bulls = bullsData.bulls as Bull[];
+export default async function Home() {
+  // Fetch bulls using Server Action
+  const bulls = await getBulls();
 
   return (
     <MainLayout>
