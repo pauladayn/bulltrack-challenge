@@ -18,7 +18,7 @@ export default function SearchInput({
 }: SearchInputProps) {
   return (
     <div className={cn(
-      "bg-white flex items-center px-6 py-4 rounded-lg",
+      "bg-white flex items-center px-6 py-4 rounded-[8px]",
       className
     )}>
       <input
@@ -28,7 +28,7 @@ export default function SearchInput({
         placeholder={placeholder}
         className="flex-1 text-base text-text-primary placeholder:text-text-primary bg-transparent outline-none"
       />
-      <Search className="w-6 h-6 text-text-primary" />
+      <Search className="w-6 h-6 text-text-primary" strokeWidth={1.5} />
     </div>
   );
 }

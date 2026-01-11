@@ -24,7 +24,10 @@ export default function RadarChart({ stats, size = 88 }: RadarChartProps) {
   }));
 
   return (
-    <div style={{ width: size, height: size }}>
+    <div 
+      className="rounded-full bg-[#F1F1F1] flex items-center justify-center"
+      style={{ width: size, height: size }}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <RechartsRadarChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
           <PolarGrid 

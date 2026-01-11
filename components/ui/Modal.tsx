@@ -42,7 +42,7 @@ export default function Modal({ isOpen, onClose, children, className }: ModalPro
       <div className="absolute inset-0 flex items-center justify-center p-4">
         <div 
           className={cn(
-            "relative max-w-[866px] w-full",
+            "relative w-full",
             className
           )}
           onClick={(e) => e.stopPropagation()}

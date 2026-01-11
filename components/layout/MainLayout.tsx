@@ -20,7 +20,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         
         {/* Content area */}
         <main className="flex-1 ml-[281px] mt-[88px]">
-          <div className="bg-bg-secondary min-h-[calc(100vh-88px)] rounded-tl-[40px] p-8">
+          <div className="bg-bg-secondary min-h-[calc(100vh-88px)] rounded-tl-[40px] py-6 px-8">
             {children}
           </div>
         </main>

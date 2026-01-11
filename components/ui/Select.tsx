@@ -56,7 +56,8 @@ export default function Select({
           className={cn(
             "w-6 h-6 text-brand-green transition-transform",
             isOpen && "rotate-180"
-          )} 
+          )}
+          strokeWidth={1.5}
         />
       </button>
 

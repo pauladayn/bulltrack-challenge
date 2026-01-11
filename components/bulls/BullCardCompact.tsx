@@ -41,7 +41,7 @@ export default function BullCardCompact({ bull, rank }: BullCardCompactProps) {
               onClick={() => setIsModalOpen(true)}
               className="w-8 h-8 bg-brand-green-dark rounded-lg flex items-center justify-center hover:bg-brand-green-dark/80 transition-colors"
             >
-              <Eye className="w-4 h-4 text-white" />
+              <Eye className="w-4 h-4 text-white" strokeWidth={1.5} />
             </button>
             <button
               onClick={() => toggleFavorite(bull.id)}
@@ -54,6 +54,7 @@ export default function BullCardCompact({ bull, rank }: BullCardCompactProps) {
             >
               <Heart
                 className={cn("w-4 h-4", favorite ? "text-white fill-white" : "text-white")}
+                strokeWidth={1.5}
               />
             </button>
           </div>

@@ -19,21 +19,21 @@ export default function BullToolbar({ totalResults }: BullToolbarProps) {
       <RankingCriteria />
 
       {/* Search and view toggle */}
-      <div className="bg-bg-tertiary rounded-lg p-4">
+      <div className="bg-bg-tertiary rounded-[8px] px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 flex-1 max-w-[50%]">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
-              className="w-[490px]"
+              className="flex-1"
             />
-            <p className="text-xl text-text-primary">
+            <p className="text-xl text-text-primary whitespace-nowrap">
               <span className="font-bold">{totalResults}</span> resultados
             </p>
           </div>
 
           {/* View toggle */}
-          <div className="flex rounded-lg overflow-hidden">
+          <div className="flex rounded-[8px] overflow-hidden">
             <button
               onClick={() => setViewMode("list")}
               className={cn(
@@ -48,6 +48,7 @@ export default function BullToolbar({ totalResults }: BullToolbarProps) {
                   "w-6 h-6",
                   viewMode === "list" ? "text-white" : "text-text-primary"
                 )}
+                strokeWidth={1.5}
               />
             </button>
             <button
@@ -64,6 +65,7 @@ export default function BullToolbar({ totalResults }: BullToolbarProps) {
                   "w-6 h-6",
                   viewMode === "grid" ? "text-white" : "text-text-primary"
                 )}
+                strokeWidth={1.5}
               />
             </button>
           </div>

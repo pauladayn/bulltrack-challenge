@@ -19,9 +19,9 @@ export default function Header() {
         <div className="flex items-center gap-6">
           {/* Location selector */}
           <button className="flex items-center gap-2 px-4 py-3 bg-brand-green-hover border border-brand-green rounded-xl h-10">
-            <MapPin className="w-6 h-6 text-brand-green" />
-            <span className="text-sm font-semibold text-brand-green">La soledad</span>
-            <ChevronDown className="w-6 h-6 text-brand-green" />
+            <MapPin className="w-6 h-6 text-brand-green" strokeWidth={1.5} />
+            <span className="text-[16px] font-semibold text-brand-green">La soledad</span>
+            <ChevronDown className="w-6 h-6 text-brand-green" strokeWidth={1.5} />
           </button>
 
           {/* Avatar */}

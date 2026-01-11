@@ -29,7 +29,7 @@ export default function OnboardingModal() {
   if (!mounted) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={handleClose} className="max-w-[700px]">
       <div
         className="rounded-3xl p-6 pt-32 flex flex-col"
         style={{

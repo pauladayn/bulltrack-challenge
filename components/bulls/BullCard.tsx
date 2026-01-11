@@ -34,7 +34,7 @@ export default function BullCard({ bull, rank }: BullCardProps) {
     <>
       <div className="bg-white rounded-3xl p-6 flex items-center gap-6">
         {/* Checkbox */}
-        <div className="w-6 h-6 rounded-lg border-[1.5px] border-accent-blue shrink-0" />
+        <div className="w-6 h-6 rounded-[8px] border-[1.5px] border-accent-blue shrink-0" />
 
         {/* Rank */}
         <span className="text-[32px] font-semibold text-text-green shrink-0">
@@ -42,9 +42,9 @@ export default function BullCard({ bull, rank }: BullCardProps) {
         </span>
 
         {/* Bull info section */}
-        <div className="flex items-center gap-6 p-2 shrink-0">
+        <div className="flex items-center gap-6 p-2 shrink-0 min-w-[280px]">
           {/* Bull image */}
-          <div className="w-[83px] h-[72px] rounded-lg shrink-0 overflow-hidden">
+          <div className="w-[83px] h-[72px] rounded-[8px] shrink-0 overflow-hidden">
             <Image
               src={getBullImage(bull.id)}
               alt={`Toro ${bull.caravana}`}
@@ -79,7 +79,7 @@ export default function BullCard({ bull, rank }: BullCardProps) {
         </div>
 
         {/* Divider */}
-        <div className="w-px h-36 bg-border-light shrink-0" />
+        <div className="w-px h-24 bg-[#D9D9D9] shrink-0 self-center" />
 
         {/* Score section */}
         <div className="flex items-center gap-6 flex-1">
@@ -93,7 +93,7 @@ export default function BullCard({ bull, rank }: BullCardProps) {
         </div>
 
         {/* Divider */}
-        <div className="w-px h-36 bg-border-light shrink-0" />
+        <div className="w-px h-24 bg-[#D9D9D9] shrink-0 self-center" />
 
         {/* Actions */}
         <div className="flex flex-col gap-4 shrink-0">
@@ -101,7 +101,7 @@ export default function BullCard({ bull, rank }: BullCardProps) {
             onClick={() => setIsModalOpen(true)}
             className="w-10 h-10 bg-brand-green-dark rounded-xl flex items-center justify-center hover:bg-brand-green-dark/80 transition-colors"
           >
-            <Eye className="w-6 h-6 text-white" />
+            <Eye className="w-6 h-6 text-white" strokeWidth={1.5} />
           </button>
           <button
             onClick={() => toggleFavorite(bull.id)}
@@ -114,6 +114,7 @@ export default function BullCard({ bull, rank }: BullCardProps) {
           >
             <Heart
               className={cn("w-6 h-6", favorite ? "text-white fill-white" : "text-white")}
+              strokeWidth={1.5}
             />
           </button>
         </div>
