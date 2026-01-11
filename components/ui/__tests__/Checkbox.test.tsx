@@ -7,18 +7,17 @@ describe("Checkbox", () => {
   it("should render unchecked state correctly", () => {
     render(<Checkbox checked={false} />);
     
-    const button = screen.getByRole("button");
-    expect(button).toBeInTheDocument();
-    
-    // Check icon should not be present
-    expect(screen.queryByRole("img", { hidden: true })).not.toBeInTheDocument();
+    const checkbox = screen.getByRole("checkbox");
+    expect(checkbox).toBeInTheDocument();
+    expect(checkbox).toHaveAttribute("aria-checked", "false");
   });
 
   it("should render checked state correctly", () => {
     render(<Checkbox checked={true} />);
     
-    const button = screen.getByRole("button");
-    expect(button).toBeInTheDocument();
+    const checkbox = screen.getByRole("checkbox");
+    expect(checkbox).toBeInTheDocument();
+    expect(checkbox).toHaveAttribute("aria-checked", "true");
   });
 
   it("should render with label", () => {
@@ -33,7 +32,7 @@ describe("Checkbox", () => {
     
     render(<Checkbox checked={false} onChange={handleChange} />);
     
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole("checkbox"));
     
     expect(handleChange).toHaveBeenCalledWith(true);
   });
@@ -44,7 +43,7 @@ describe("Checkbox", () => {
     
     render(<Checkbox checked={true} onChange={handleChange} />);
     
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole("checkbox"));
     
     expect(handleChange).toHaveBeenCalledWith(false);
   });
@@ -55,13 +54,13 @@ describe("Checkbox", () => {
     render(<Checkbox checked={false} />);
     
     // Should not throw
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole("checkbox"));
   });
 
   it("should apply custom className", () => {
     render(<Checkbox checked={false} className="custom-class" />);
     
-    const button = screen.getByRole("button");
-    expect(button).toHaveClass("custom-class");
+    const checkbox = screen.getByRole("checkbox");
+    expect(checkbox).toHaveClass("custom-class");
   });
 });
