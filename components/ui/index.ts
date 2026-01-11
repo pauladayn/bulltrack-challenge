@@ -10,3 +10,4 @@ export { default as Select } from "./Select";
 export { default as Toast } from "./Toast";
 export { default as Toggle } from "./Toggle";
 export { default as ViewButton } from "./ViewButton";
+export { default as ViewModeToggle } from "./ViewModeToggle";

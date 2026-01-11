@@ -11,20 +11,21 @@ import {
 import { BullStats } from "@/types/bulls";
 
 import { STAT_LABELS_SHORT } from "@/lib/bulls";
-
-// CSS variable value for brand-green
-const BRAND_GREEN = "#36e27b";
+import { RADAR_CHART } from "@/lib/constants";
 
 interface RadarChartProps {
   stats: BullStats;
   size?: number;
 }
 
-export default function RadarChart({ stats, size = 88 }: RadarChartProps) {
+export default function RadarChart({ 
+  stats, 
+  size = RADAR_CHART.DEFAULT_SIZE 
+}: RadarChartProps) {
   const data = Object.entries(stats).map(([key, value]) => ({
     stat: STAT_LABELS_SHORT[key as keyof BullStats],
     value,
-    fullMark: 100,
+    fullMark: RADAR_CHART.FULL_MARK,
   }));
 
   return (
@@ -38,7 +39,7 @@ export default function RadarChart({ stats, size = 88 }: RadarChartProps) {
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         >
           <PolarGrid
-            stroke={BRAND_GREEN}
+            stroke={RADAR_CHART.COLOR}
             strokeOpacity={0.3}
             gridType="polygon"
           />
@@ -46,8 +47,8 @@ export default function RadarChart({ stats, size = 88 }: RadarChartProps) {
           <Radar
             name="Stats"
             dataKey="value"
-            stroke={BRAND_GREEN}
-            fill={BRAND_GREEN}
+            stroke={RADAR_CHART.COLOR}
+            fill={RADAR_CHART.COLOR}
             fillOpacity={0.3}
             strokeWidth={2}
           />

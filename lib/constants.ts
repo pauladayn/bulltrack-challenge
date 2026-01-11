@@ -60,3 +60,20 @@ export const COLOR_GUIDE = [
 
 // Placeholder badges for Sidebar active filters
 export const ACTIVE_FILTER_BADGES = ["Badge", "Badge", "Badge", "Badge"] as const;
+
+// ============================================
+// RADAR CHART CONFIGURATION
+// ============================================
+// Note: Recharts doesn't support CSS variables, so we mirror the values here
+// Keep in sync with globals.css --brand-green
+
+export const RADAR_CHART = {
+  /** Default size in pixels (used in BullCard) */
+  DEFAULT_SIZE: 88,
+  /** Large size in pixels (used in BullDetailModal) */
+  LARGE_SIZE: 250,
+  /** Maximum value for stats (100%) */
+  FULL_MARK: 100,
+  /** Brand green color - mirrors var(--brand-green) */
+  COLOR: "#36e27b",
+} as const;

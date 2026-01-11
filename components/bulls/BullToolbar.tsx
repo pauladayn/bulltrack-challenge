@@ -1,20 +1,17 @@
 "use client";
 
-import { List, LayoutGrid } from "lucide-react";
+import { SearchInput, ViewModeToggle } from "@/components/ui";
 
-import { SearchInput } from "@/components/ui";
 import RankingCriteria from "./RankingCriteria";
 
 import { useFilters } from "@/context/FiltersContext";
-
-import { cn } from "@/lib/utils";
 
 interface BullToolbarProps {
   totalResults: number;
 }
 
 export default function BullToolbar({ totalResults }: BullToolbarProps) {
-  const { searchQuery, setSearchQuery, viewMode, setViewMode } = useFilters();
+  const { searchQuery, setSearchQuery } = useFilters();
 
   return (
     <div className="flex flex-col gap-4">
@@ -35,49 +32,7 @@ export default function BullToolbar({ totalResults }: BullToolbarProps) {
             </p>
           </div>
 
-          {/* View toggle */}
-          <div className="flex rounded-[8px] overflow-hidden" role="group" aria-label="Modo de visualización">
-            <button
-              onClick={() => setViewMode("list")}
-              aria-label="Ver como lista"
-              aria-pressed={viewMode === "list"}
-              className={cn(
-                "px-6 py-2 transition-colors cursor-pointer",
-                viewMode === "list"
-                  ? "bg-brand-green-dark"
-                  : "bg-border-light hover:bg-gray-300"
-              )}
-            >
-              <List
-                className={cn(
-                  "w-6 h-6",
-                  viewMode === "list" ? "text-white" : "text-text-primary"
-                )}
-                strokeWidth={1.5}
-                aria-hidden="true"
-              />
-            </button>
-            <button
-              onClick={() => setViewMode("grid")}
-              aria-label="Ver como grilla"
-              aria-pressed={viewMode === "grid"}
-              className={cn(
-                "px-6 py-2 transition-colors cursor-pointer",
-                viewMode === "grid"
-                  ? "bg-brand-green-dark"
-                  : "bg-border-light hover:bg-gray-300"
-              )}
-            >
-              <LayoutGrid
-                className={cn(
-                  "w-6 h-6",
-                  viewMode === "grid" ? "text-white" : "text-text-primary"
-                )}
-                strokeWidth={1.5}
-                aria-hidden="true"
-              />
-            </button>
-          </div>
+          <ViewModeToggle />
         </div>
       </div>
     </div>

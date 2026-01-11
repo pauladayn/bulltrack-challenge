@@ -1,103 +1,117 @@
 # Bulltrack - Bull Ranking Dashboard
 
-Dashboard de clasificación de toros que permite a los productores filtrar y ordenar toros basándose en un "Bull Score" personalizado y criterios técnicos específicos para optimizar su producción.
+A bull classification dashboard that allows producers to filter and sort bulls based on a personalized "Bull Score" and specific technical criteria to optimize their production.
 
-## Stack Tecnológico
+## Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **State Management**: React Context API
-- **Charts**: [Recharts](https://recharts.org/) (Radar chart pentagonal)
+- **State Management**: React Context API with useReducer
+- **Charts**: [Recharts](https://recharts.org/) (Pentagonal radar chart)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Language**: TypeScript
+- **Testing**: Vitest + React Testing Library
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 bulltrack/
 ├── app/                    # Next.js App Router
 │   ├── actions/           # Server Actions (data fetching)
-│   ├── globals.css        # Estilos globales y design tokens
+│   ├── globals.css        # Global styles and design tokens
 │   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Página principal
+│   └── page.tsx           # Main page
 ├── components/
-│   ├── bulls/             # Componentes del dominio de toros
-│   │   ├── BullBadge.tsx      # Badges/etiquetas
-│   │   ├── BullCard.tsx       # Card de toro (vista lista)
-│   │   ├── BullCardCompact.tsx # Card de toro (vista grilla)
-│   │   ├── BullDetailModal.tsx # Modal de detalle
-│   │   ├── BullGrid.tsx       # Contenedor de la grilla
-│   │   ├── BullScore.tsx      # Componente de score
-│   │   ├── BullScoreDetail.tsx # Score detallado (modal)
-│   │   ├── BullToolbar.tsx    # Barra de búsqueda y vista
-│   │   ├── RadarChart.tsx     # Gráfico radar
-│   │   └── RankingCriteria.tsx # Criterios de ranking (accordion)
-│   ├── filters/           # Constantes de filtros
-│   ├── layout/            # Componentes de layout
+│   ├── bulls/             # Bull domain components
+│   │   ├── BullBadge.tsx      # Tags/badges
+│   │   ├── BullCard.tsx       # Bull card (list view)
+│   │   ├── BullCardCompact.tsx # Bull card (grid view)
+│   │   ├── BullDetailModal.tsx # Detail modal
+│   │   ├── BullGrid.tsx       # Grid container
+│   │   ├── BullScore.tsx      # Score component
+│   │   ├── BullScoreDetail.tsx # Detailed score (modal)
+│   │   ├── BullToolbar.tsx    # Search bar and view toggle
+│   │   ├── RadarChart.tsx     # Radar chart
+│   │   └── RankingCriteria.tsx # Ranking criteria (accordion)
+│   ├── filters/           # Filter constants
+│   ├── layout/            # Layout components
 │   │   ├── Header.tsx
 │   │   ├── MainLayout.tsx
 │   │   ├── OnboardingModal.tsx
 │   │   ├── Sidebar.tsx
 │   │   └── ExportButton.tsx
-│   └── ui/                # Componentes UI reutilizables
+│   └── ui/                # Reusable UI components
 │       ├── Button.tsx
 │       ├── Checkbox.tsx
+│       ├── Divider.tsx
+│       ├── EditCriteriaButton.tsx
+│       ├── FavoriteButton.tsx
 │       ├── Modal.tsx
 │       ├── SearchInput.tsx
+│       ├── SectionTitle.tsx
 │       ├── Select.tsx
 │       ├── Toast.tsx
-│       └── Toggle.tsx
+│       ├── Toggle.tsx
+│       ├── ViewButton.tsx
+│       └── ViewModeToggle.tsx
 ├── context/               # React Context providers
-│   └── FiltersContext.tsx # Estado global de filtros y favoritos
-├── data/                  # Datos mock
+│   └── FiltersContext.tsx # Global filter and favorites state
+├── data/                  # Mock data
 │   └── bulls_data.json
-├── lib/                   # Utilidades y constantes
-│   ├── constants.ts
-│   └── utils.ts
-├── public/                # Assets estáticos
+├── hooks/                 # Custom hooks
+│   └── useToast.ts
+├── lib/                   # Utilities and constants
+│   ├── bulls.ts          # Bull-related utilities
+│   ├── constants.ts      # App constants
+│   ├── filters.ts        # Filter logic
+│   └── utils.ts          # General utilities
+├── public/               # Static assets
 │   └── images/
-└── types/                 # TypeScript types
+└── types/                # TypeScript types
     ├── bulls.ts
     └── filters.ts
 ```
 
-## Funcionalidades
+## Features
 
-- **Listado dinámico**: Renderiza los toros desde `bulls_data.json` vía Server Action
-- **Modal de onboarding**: Se muestra al ingresar a la app
-- **Sistema de favoritos**: Marcar/desmarcar toros (persiste en sessionStorage)
-- **Filtros del sidebar**:
-  - Origen: Propios, Catálogo, Todos, Favoritos
-  - Uso: Toggle para "Para vaquillona"
-  - Pelaje: Negro, Colorado, Todos
-- **Ordenamiento**: Por Bull Score (mayor a menor y viceversa)
-- **Búsqueda**: Filtra por caravana, nombre o raza en tiempo real
-- **Vistas**: Lista y grilla
-- **Gráfico radar**: Visualización pentagonal de características genéticas
+- **Dynamic listing**: Renders bulls from `bulls_data.json` via Server Action
+- **Onboarding modal**: Shown on first app visit
+- **Favorites system**: Mark/unmark bulls (persisted in sessionStorage)
+- **Sidebar filters**:
+  - Origin: Own, Catalog, All, Favorites
+  - Usage: Toggle for "For heifer"
+  - Coat: Black, Red, All
+- **Sorting**: By Bull Score (ascending/descending)
+- **Search**: Filter by tag, name, or breed in real-time
+- **Views**: List and grid
+- **Radar chart**: Pentagonal visualization of genetic characteristics
 
 ## Getting Started
 
 ```bash
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Correr en desarrollo
+# Run development server
 npm run dev
 
-# Build de producción
+# Production build
 npm run build
 
-# Correr producción
+# Run production
 npm start
+
+# Run tests
+npm test
 ```
 
-Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Design Tokens
 
-Los colores y espaciados están definidos como CSS variables en `app/globals.css`:
+Colors and spacing are defined as CSS variables in `app/globals.css`:
 
 - Brand colors: `--brand-green`, `--brand-green-dark`
-- Sidebar colors: `--sidebar-bg`, `--sidebar-card`
+- Sidebar colors: `--sidebar`, `--sidebar-card`
 - Text colors: `--text-primary`, `--text-secondary`, `--text-muted`
-- Spacing (radius): `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`
+- Dividers: `--divider`, `--divider-dark`

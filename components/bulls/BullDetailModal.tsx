@@ -12,6 +12,7 @@ import RadarChart from "./RadarChart";
 
 import { Bull } from "@/types/bulls";
 import { getBullImage, getOrigenBadgeVariant, getUsoBadgeVariant, ORIGEN_LABELS, USO_LABELS } from "@/lib/bulls";
+import { RADAR_CHART } from "@/lib/constants";
 
 interface BullDetailModalProps {
   bull: Bull | null;
@@ -98,7 +99,7 @@ export default function BullDetailModal({
 
           {/* Radar chart large - 50% width */}
           <div className="w-1/2 flex flex-col items-center justify-center">
-            <RadarChart stats={bull.stats} size={250} />
+            <RadarChart stats={bull.stats} size={RADAR_CHART.LARGE_SIZE} />
             <p className="text-sm text-white/60 mt-4 text-center">
               Distribución de características genéticas
             </p>
