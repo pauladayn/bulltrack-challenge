@@ -1,24 +1,23 @@
 "use client";
 
 import Image from "next/image";
+
 import { X } from "lucide-react";
-import { Bull } from "@/types/bulls";
-import { Modal } from "@/components/ui";
+
+import { Divider, Modal } from "@/components/ui";
+
 import BullScoreDetail from "./BullScoreDetail";
 import BullBadge from "./BullBadge";
 import RadarChart from "./RadarChart";
+
+import { Bull } from "@/types/bulls";
+import { getBullImage, getOrigenBadgeVariant, getUsoBadgeVariant, ORIGEN_LABELS, USO_LABELS } from "@/lib/bulls";
 
 interface BullDetailModalProps {
   bull: Bull | null;
   isOpen: boolean;
   onClose: () => void;
 }
-
-// Rotar entre las 3 imágenes disponibles
-const getBullImage = (id: number) => {
-  const imageIndex = (id % 3) + 1;
-  return `/images/bulls/bull-${imageIndex}.png`;
-};
 
 export default function BullDetailModal({
   bull,
@@ -27,8 +26,8 @@ export default function BullDetailModal({
 }: BullDetailModalProps) {
   if (!bull) return null;
 
-  const origenBadgeVariant = bull.origen === "propio" ? "origin-propio" : "origin-catalogo";
-  const usoBadgeVariant = bull.uso === "vaquillona" ? "uso-vaquillona" : "uso-vaca";
+  const origenBadgeVariant = getOrigenBadgeVariant(bull.origen);
+  const usoBadgeVariant = getUsoBadgeVariant(bull.uso);
 
   // Calculate top percentile based on score (mock logic)
   const topPercentile = bull.bull_score >= 90 ? 1 : bull.bull_score >= 80 ? 5 : 10;
@@ -62,15 +61,15 @@ export default function BullDetailModal({
             </div>
 
             {/* Vertical divider */}
-            <div className="w-px h-16 bg-sidebar-border shrink-0" />
+            <Divider orientation="vertical" className="h-16 bg-sidebar-border" />
 
             {/* Badges */}
             <div className="flex gap-2">
               <BullBadge variant={origenBadgeVariant}>
-                {bull.origen === "propio" ? "Propio" : "Catálogo"}
+                {ORIGEN_LABELS[bull.origen]}
               </BullBadge>
               <BullBadge variant={usoBadgeVariant}>
-                {bull.uso === "vaquillona" ? "Para vaquillona" : "Para vaca"}
+                {USO_LABELS[bull.uso]}
               </BullBadge>
             </div>
           </div>
@@ -78,9 +77,10 @@ export default function BullDetailModal({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-[8px] bg-sidebar-card flex items-center justify-center hover:bg-sidebar-border transition-colors shrink-0"
+            aria-label="Cerrar modal"
+            className="w-10 h-10 rounded-[8px] bg-sidebar-card flex items-center justify-center hover:bg-sidebar-border transition-colors shrink-0 cursor-pointer"
           >
-            <X className="w-5 h-5 text-white" strokeWidth={1.5} />
+            <X className="w-5 h-5 text-white" strokeWidth={1.5} aria-hidden="true" />
           </button>
         </div>
 

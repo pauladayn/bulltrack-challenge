@@ -26,7 +26,7 @@ export default function BullScore({ score, highlight, className }: BullScoreProp
       </div>
 
       {/* Progress bar */}
-      <div className="h-2 bg-[#F1F1F1] rounded-full overflow-hidden">
+      <div className="h-2 bg-bg-tertiary rounded-full overflow-hidden">
         <div
           className="h-full bg-brand-green rounded-full transition-all duration-300"
           style={{ width: `${percentage}%` }}

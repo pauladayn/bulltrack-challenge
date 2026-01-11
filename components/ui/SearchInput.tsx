@@ -1,20 +1,23 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  ariaLabel?: string;
 }
 
 export default function SearchInput({ 
   value, 
   onChange, 
   placeholder = "Busca por caravana, nombre o cabaña",
-  className 
+  className,
+  ariaLabel = "Buscar"
 }: SearchInputProps) {
   return (
     <div className={cn(
@@ -26,9 +29,10 @@ export default function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        aria-label={ariaLabel}
         className="flex-1 text-base text-text-primary placeholder:text-text-primary bg-transparent outline-none"
       />
-      <Search className="w-6 h-6 text-text-primary" strokeWidth={1.5} />
+      <Search className="w-6 h-6 text-text-primary" strokeWidth={1.5} aria-hidden="true" />
     </div>
   );
 }

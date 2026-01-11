@@ -1,8 +1,10 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { useState, useRef, useEffect, useId } from "react";
+
 import { ChevronDown } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface SelectOption {
   value: string;
@@ -14,6 +16,7 @@ interface SelectProps {
   onChange: (value: string) => void;
   options: SelectOption[];
   placeholder?: string;
+  label?: string;
   className?: string;
 }
 
@@ -22,10 +25,12 @@ export default function Select({
   onChange, 
   options, 
   placeholder = "Seleccionar",
+  label,
   className 
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
 
   // Close on click outside
   useEffect(() => {
@@ -39,6 +44,18 @@ export default function Select({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close on Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+      return () => document.removeEventListener("keydown", handleEscape);
+    }
+  }, [isOpen]);
+
   const selectedOption = options.find(opt => opt.value === value);
 
   return (
@@ -46,8 +63,12 @@ export default function Select({
       {/* Trigger */}
       <button
         type="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-controls={listboxId}
+        aria-label={label || "Seleccionar opción"}
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-sidebar-card flex items-center justify-between px-3 py-4 rounded-[8px] h-14 w-full"
+        className="bg-sidebar-card flex items-center justify-between px-3 py-4 rounded-[8px] h-14 w-full cursor-pointer"
       >
         <span className="text-sm text-white">
           {selectedOption?.label || placeholder}
@@ -58,22 +79,30 @@ export default function Select({
             isOpen && "rotate-180"
           )}
           strokeWidth={1.5}
+          aria-hidden="true"
         />
       </button>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-sidebar-card rounded-[8px] border border-sidebar-border overflow-hidden z-50">
+        <div 
+          id={listboxId}
+          role="listbox"
+          aria-activedescendant={value}
+          className="absolute top-full left-0 right-0 mt-1 bg-sidebar-card rounded-[8px] border border-sidebar-border overflow-hidden z-50"
+        >
           {options.map((option) => (
             <button
               key={option.value}
               type="button"
+              role="option"
+              aria-selected={value === option.value}
               onClick={() => {
                 onChange(option.value);
                 setIsOpen(false);
               }}
               className={cn(
-                "w-full px-3 py-3 text-sm text-left text-white hover:bg-brand-green-hover transition-colors",
+                "w-full px-3 py-3 text-sm text-left text-white hover:bg-brand-green-hover transition-colors cursor-pointer",
                 value === option.value && "bg-brand-green-hover"
               )}
             >

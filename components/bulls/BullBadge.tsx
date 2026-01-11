@@ -9,11 +9,11 @@ interface BullBadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  "origin-propio": "bg-brand-green-light border-brand-green text-success",
-  "origin-catalogo": "bg-brand-green-light border-brand-green text-success",
+  "origin-propio": "bg-brand-green-light border-brand-green text-[#43B75D]",
+  "origin-catalogo": "bg-brand-green-light border-brand-green text-[#43B75D]",
   "uso-vaquillona": "bg-accent-blue-light border-accent-blue-border text-accent-blue",
   "uso-vaca": "bg-accent-blue-light border-accent-blue text-accent-blue",
-  "highlight": "bg-success-light border-success text-success",
+  "highlight": "bg-brand-green-light border-brand-green text-[#43B75D]",
 };
 
 export default function BullBadge({ variant, children, className }: BullBadgeProps) {

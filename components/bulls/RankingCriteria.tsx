@@ -1,47 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Info, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
+
+import { Info, ChevronDown, ChevronUp } from "lucide-react";
+
+import { Divider, EditCriteriaButton, Toast } from "@/components/ui";
+import { useToast } from "@/hooks";
+
 import { cn } from "@/lib/utils";
-import { Toast } from "@/components/ui";
-
-interface CriteriaItem {
-  name: string;
-  weight: number;
-  color: string;
-}
-
-const criteria: CriteriaItem[] = [
-  { name: "Crecimiento", weight: 30, color: "#36E47C" },
-  { name: "Habilidad materna", weight: 30, color: "#78D19C" },
-  { name: "Fertilidad", weight: 30, color: "#A5D1B7" },
-];
-
-const colorGuide = [
-  {
-    color: "bg-brand-green",
-    label: "Excelente (Top 25%)",
-    description: "Superior al promedio de la raza",
-  },
-  {
-    color: "bg-yellow-400",
-    label: "Promedio / Normal",
-    description: "Dentro de la desviación estándar (#1)",
-  },
-  {
-    color: "bg-red-500",
-    label: "Inferior / Alerta",
-    description: "Impacto negativo en el objetivo (Bottom 25%)",
-  },
-];
+import { RANKING_CRITERIA, COLOR_GUIDE } from "@/lib/constants";
 
 export default function RankingCriteria() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-
-  const handleEditCriteria = () => {
-    setShowToast(true);
-  };
+  const toast = useToast();
 
   return (
     <>
@@ -49,26 +20,28 @@ export default function RankingCriteria() {
         {/* Header - always visible */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
+          aria-expanded={isExpanded}
+          aria-controls="ranking-criteria-content"
           className="w-full p-4 flex items-center justify-between cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <Info className="w-6 h-6 text-text-primary" />
+            <Info className="w-6 h-6 text-text-primary" strokeWidth={1.5} aria-hidden="true" />
             <span className="text-base font-bold text-text-primary">
               Criterios del ranking
             </span>
           </div>
           {isExpanded ? (
-            <ChevronUp className="w-6 h-6 text-text-primary" strokeWidth={1.5} />
+            <ChevronUp className="w-6 h-6 text-text-primary" strokeWidth={1.5} aria-hidden="true" />
           ) : (
-            <ChevronDown className="w-6 h-6 text-text-primary" strokeWidth={1.5} />
+            <ChevronDown className="w-6 h-6 text-text-primary" strokeWidth={1.5} aria-hidden="true" />
           )}
         </button>
 
         {/* Expanded content */}
         {isExpanded && (
-          <div className="px-6 pb-4">
+          <div id="ranking-criteria-content" className="px-6 pb-4">
             {/* Horizontal divider */}
-            <div className="w-full h-px bg-[#D9D9D9] mb-4" />
+            <Divider className="mb-4" />
             
             <div className="flex gap-8 pt-4">
               {/* Índice activo */}
@@ -84,7 +57,7 @@ export default function RankingCriteria() {
               </div>
 
               {/* Vertical divider */}
-              <div className="w-px bg-[#9F9F9F] self-stretch" />
+              <Divider orientation="vertical" className="bg-divider-dark self-stretch h-auto" />
 
               {/* Peso de atributos */}
               <div className="flex flex-col gap-4 flex-1">
@@ -92,7 +65,7 @@ export default function RankingCriteria() {
                   Peso de atributos
                 </h3>
                 <div className="flex flex-col gap-3">
-                  {criteria.map((item) => (
+                  {RANKING_CRITERIA.map((item) => (
                     <div key={item.name} className="flex flex-col gap-1">
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-text-primary">{item.name}</span>
@@ -103,7 +76,7 @@ export default function RankingCriteria() {
                           className="h-full rounded-full"
                           style={{ 
                             width: `${item.weight}%`,
-                            backgroundColor: item.color
+                            backgroundColor: item.colorVar
                           }}
                         />
                       </div>
@@ -113,7 +86,7 @@ export default function RankingCriteria() {
               </div>
 
               {/* Vertical divider */}
-              <div className="w-px bg-[#9F9F9F] self-stretch" />
+              <Divider orientation="vertical" className="bg-divider-dark self-stretch h-auto" />
 
               {/* Guía de colores */}
               <div className="flex flex-col gap-4 flex-1">
@@ -121,7 +94,7 @@ export default function RankingCriteria() {
                   Guía de colores
                 </h3>
                 <div className="flex flex-col gap-3">
-                  {colorGuide.map((item) => (
+                  {COLOR_GUIDE.map((item) => (
                     <div key={item.label} className="flex items-start gap-3">
                       <div className={cn("w-4 h-4 rounded-full shrink-0 mt-0.5", item.color)} />
                       <div className="flex flex-col">
@@ -139,15 +112,9 @@ export default function RankingCriteria() {
             </div>
 
             {/* Button - outside the 3 columns */}
-            <button
-              onClick={handleEditCriteria}
-              className="flex items-center gap-2 px-4 py-3 border border-[#29382F] rounded-[12px] w-fit mt-6 hover:bg-gray-100 transition-colors h-10"
-            >
-              <ArrowLeft className="w-5 h-5 text-[#29382F]" strokeWidth={1.5} />
-              <span className="text-sm font-semibold text-[#29382F]">
-                Editar criterios
-              </span>
-            </button>
+            <div className="mt-6">
+              <EditCriteriaButton onClick={toast.show} />
+            </div>
           </div>
         )}
       </div>
@@ -155,8 +122,8 @@ export default function RankingCriteria() {
       {/* Toast */}
       <Toast
         message="Esta funcionalidad estará disponible próximamente"
-        isVisible={showToast}
-        onClose={() => setShowToast(false)}
+        isVisible={toast.isVisible}
+        onClose={toast.hide}
       />
     </>
   );

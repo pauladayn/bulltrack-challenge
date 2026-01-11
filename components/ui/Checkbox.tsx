@@ -1,7 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 interface CheckboxProps {
   checked: boolean;
@@ -14,9 +15,12 @@ export default function Checkbox({ checked, onChange, label, className }: Checkb
   return (
     <button
       type="button"
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={label || "Checkbox"}
       onClick={() => onChange?.(!checked)}
       className={cn(
-        "flex items-center gap-3 shrink-0",
+        "flex items-center gap-3 shrink-0 cursor-pointer",
         label && "w-full",
         className
       )}
@@ -29,7 +33,7 @@ export default function Checkbox({ checked, onChange, label, className }: Checkb
             : "border-brand-green bg-transparent"
         )}
       >
-        {checked && <Check className="w-4 h-4 text-sidebar" strokeWidth={3} />}
+        {checked && <Check className="w-4 h-4 text-sidebar" strokeWidth={3} aria-hidden="true" data-testid="check-icon" />}
       </div>
       {label && <span className="text-sm text-white">{label}</span>}
     </button>

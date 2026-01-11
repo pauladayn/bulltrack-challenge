@@ -1,10 +1,74 @@
 "use client";
 
 import { useMemo } from "react";
-import { Bull } from "@/types/bulls";
-import { useFilters } from "@/context/FiltersContext";
+
 import BullCard from "./BullCard";
 import BullCardCompact from "./BullCardCompact";
+
+import { useFilters } from "@/context/FiltersContext";
+
+import { Bull } from "@/types/bulls";
+import { OriginFilter, CoatFilter, SortOrder } from "@/types/filters";
+
+// ============================================
+// FILTER PATTERN - Scalable filter architecture
+// ============================================
+
+interface FilterContext {
+  origin: OriginFilter;
+  coat: CoatFilter;
+  forHeifer: boolean;
+  searchQuery: string;
+  favorites: number[];
+}
+
+type FilterPredicate = (bull: Bull, ctx: FilterContext) => boolean;
+
+/**
+ * Array of filter predicates - easy to add new filters
+ * Each predicate returns true if the bull passes the filter
+ */
+const FILTERS: FilterPredicate[] = [
+  // Origin filter
+  (bull, { origin, favorites }) => {
+    if (origin === "todos") return true;
+    if (origin === "favoritos") return favorites.includes(bull.id);
+    return bull.origen === origin;
+  },
+
+  // Coat filter
+  (bull, { coat }) => coat === "todos" || bull.pelaje === coat,
+
+  // Heifer filter
+  (bull, { forHeifer }) => !forHeifer || bull.uso === "vaquillona",
+
+  // Search filter
+  (bull, { searchQuery }) => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase();
+    return [bull.caravana, bull.nombre, bull.raza].some((field) =>
+      field.toLowerCase().includes(query)
+    );
+  },
+];
+
+/**
+ * Apply all filters to bulls array
+ */
+const applyFilters = (bulls: Bull[], ctx: FilterContext): Bull[] =>
+  bulls.filter((bull) => FILTERS.every((predicate) => predicate(bull, ctx)));
+
+/**
+ * Sort strategies by sort order
+ */
+const SORT_STRATEGIES: Record<SortOrder, (a: Bull, b: Bull) => number> = {
+  score_desc: (a, b) => b.bull_score - a.bull_score,
+  score_asc: (a, b) => a.bull_score - b.bull_score,
+};
+
+// ============================================
+// COMPONENT
+// ============================================
 
 interface BullGridProps {
   bulls: Bull[];
@@ -15,47 +79,9 @@ export default function BullGrid({ bulls }: BullGridProps) {
     useFilters();
 
   const filteredAndSortedBulls = useMemo(() => {
-    let result = [...bulls];
-
-    // Filter by origin
-    if (origin === "propio") {
-      result = result.filter((bull) => bull.origen === "propio");
-    } else if (origin === "catalogo") {
-      result = result.filter((bull) => bull.origen === "catalogo");
-    } else if (origin === "favoritos") {
-      result = result.filter((bull) => favorites.includes(bull.id));
-    }
-
-    // Filter by coat
-    if (coat !== "todos") {
-      result = result.filter((bull) => bull.pelaje === coat);
-    }
-
-    // Filter by heifer usage
-    if (forHeifer) {
-      result = result.filter((bull) => bull.uso === "vaquillona");
-    }
-
-    // Filter by search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (bull) =>
-          bull.caravana.toLowerCase().includes(query) ||
-          bull.nombre.toLowerCase().includes(query) ||
-          bull.raza.toLowerCase().includes(query)
-      );
-    }
-
-    // Sort by score
-    result.sort((a, b) => {
-      if (sortOrder === "score_desc") {
-        return b.bull_score - a.bull_score;
-      }
-      return a.bull_score - b.bull_score;
-    });
-
-    return result;
+    const ctx: FilterContext = { origin, coat, forHeifer, searchQuery, favorites };
+    const filtered = applyFilters(bulls, ctx);
+    return filtered.sort(SORT_STRATEGIES[sortOrder]);
   }, [bulls, origin, coat, forHeifer, sortOrder, searchQuery, favorites]);
 
   if (filteredAndSortedBulls.length === 0) {

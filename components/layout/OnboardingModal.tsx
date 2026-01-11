@@ -1,23 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Modal } from "@/components/ui";
+import { useSyncExternalStore, useState } from "react";
+
 import { BadgeCheck, ArrowRight, Check } from "lucide-react";
+
+import { Modal } from "@/components/ui";
+
 import { ONBOARDING_FEATURES, STORAGE_KEYS } from "@/lib/constants";
 
+// Check if modal was dismissed from sessionStorage
+const getSnapshot = () => {
+  return sessionStorage.getItem(STORAGE_KEYS.ONBOARDING_DISMISSED) !== "true";
+};
+
+const getServerSnapshot = () => false; // Don't show on server
+const subscribe = () => () => {}; // No-op, value is read once on mount
 
 export default function OnboardingModal() {
-  const [isOpen, setIsOpen] = useState(false);
+  const shouldShow = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [isOpen, setIsOpen] = useState(true);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const dismissed = sessionStorage.getItem(STORAGE_KEYS.ONBOARDING_DISMISSED);
-    if (!dismissed) {
-      setIsOpen(true);
-    }
-  }, []);
 
   const handleClose = () => {
     if (dontShowAgain) {
@@ -26,16 +28,17 @@ export default function OnboardingModal() {
     setIsOpen(false);
   };
 
-  if (!mounted) return null;
+  // Only show if should show AND not explicitly closed
+  if (!shouldShow || !isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} className="max-w-[700px]">
       <div
         className="rounded-3xl p-6 pt-32 flex flex-col"
         style={{
-            background: "var(--modal-gradient)",
-            boxShadow: "var(--modal-shadow)",
-          }}
+          background: "var(--modal-gradient)",
+          boxShadow: "var(--modal-shadow)",
+        }}
       >
         {/* Header */}
         <div className="flex gap-6 items-start px-[18px]">
@@ -76,8 +79,12 @@ export default function OnboardingModal() {
         <div className="flex items-center justify-between mt-6 px-[18px]">
           {/* Checkbox container */}
           <div
+            role="checkbox"
+            aria-checked={dontShowAgain}
+            tabIndex={0}
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => setDontShowAgain(!dontShowAgain)}
+            onKeyDown={(e) => e.key === "Enter" && setDontShowAgain(!dontShowAgain)}
           >
             <div
               className={`w-6 h-6 rounded-[8px] border-[1.5px] flex items-center justify-center transition-colors ${
@@ -87,7 +94,7 @@ export default function OnboardingModal() {
               }`}
             >
               {dontShowAgain && (
-                <Check className="w-4 h-4 text-sidebar" strokeWidth={3} />
+                <Check className="w-4 h-4 text-sidebar" strokeWidth={3} aria-hidden="true" />
               )}
             </div>
             <span className="text-sm font-normal text-modal-text leading-4">
@@ -98,12 +105,13 @@ export default function OnboardingModal() {
           {/* Button */}
           <button
             onClick={handleClose}
-            className="flex items-center justify-center gap-2 w-[150px] h-10 px-3 py-4 bg-modal-button-bg border border-modal-button-accent rounded-xl"
+            aria-label="Ver ranking de toros"
+            className="flex items-center justify-center gap-2 w-[150px] h-10 px-3 py-4 bg-modal-button-bg border border-modal-button-accent rounded-xl cursor-pointer"
           >
             <span className="text-sm font-semibold text-modal-button-accent">
               Ver ranking
             </span>
-            <ArrowRight className="w-5 h-5 text-modal-button-accent" strokeWidth={1.5} />
+            <ArrowRight className="w-5 h-5 text-modal-button-accent" strokeWidth={1.5} aria-hidden="true" />
           </button>
         </div>
       </div>

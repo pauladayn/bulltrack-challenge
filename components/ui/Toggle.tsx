@@ -5,16 +5,20 @@ import { cn } from "@/lib/utils";
 interface ToggleProps {
   checked: boolean;
   onChange?: (checked: boolean) => void;
+  label?: string;
   className?: string;
 }
 
-export default function Toggle({ checked, onChange, className }: ToggleProps) {
+export default function Toggle({ checked, onChange, label, className }: ToggleProps) {
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label || "Toggle"}
       onClick={() => onChange?.(!checked)}
       className={cn(
-        "w-11 h-6 rounded-xl relative transition-colors",
+        "w-11 h-6 rounded-xl relative transition-colors cursor-pointer",
         checked ? "bg-brand-green" : "bg-black",
         className
       )}

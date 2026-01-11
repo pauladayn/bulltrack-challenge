@@ -1,7 +1,10 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
 import { OriginFilter, CoatFilter, SortOrder, ViewMode, FiltersState } from "@/types/filters";
+
+import { STORAGE_KEYS } from "@/lib/constants";
 
 interface FiltersContextType extends FiltersState {
   setOrigin: (origin: OriginFilter) => void;
@@ -34,6 +37,26 @@ export function FiltersProvider({ children }: { children: ReactNode }) {
   const [searchQuery, setSearchQuery] = useState(initialState.searchQuery);
   const [favorites, setFavorites] = useState<number[]>(initialState.favorites);
   const [viewMode, setViewMode] = useState<ViewMode>(initialState.viewMode);
+
+  // Load favorites from sessionStorage on mount
+  useEffect(() => {
+    const stored = sessionStorage.getItem(STORAGE_KEYS.FAVORITES);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setFavorites(parsed);
+        }
+      } catch {
+        // Invalid JSON, ignore
+      }
+    }
+  }, []);
+
+  // Persist favorites to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(favorites));
+  }, [favorites]);
 
   const toggleFavorite = (bullId: number) => {
     setFavorites((prev) =>

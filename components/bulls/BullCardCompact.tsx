@@ -2,30 +2,24 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Eye, Heart } from "lucide-react";
-import { Bull } from "@/types/bulls";
-import { useFilters } from "@/context/FiltersContext";
-import { cn } from "@/lib/utils";
+
+import { FavoriteButton, ViewButton } from "@/components/ui";
+
 import BullBadge from "./BullBadge";
 import BullDetailModal from "./BullDetailModal";
+
+import { Bull } from "@/types/bulls";
+import { getBullImage, getOrigenBadgeVariant, ORIGEN_LABELS } from "@/lib/bulls";
 
 interface BullCardCompactProps {
   bull: Bull;
   rank: number;
 }
 
-// Rotar entre las 3 imágenes disponibles
-const getBullImage = (id: number) => {
-  const imageIndex = (id % 3) + 1;
-  return `/images/bulls/bull-${imageIndex}.png`;
-};
-
 export default function BullCardCompact({ bull, rank }: BullCardCompactProps) {
-  const { toggleFavorite, isFavorite } = useFilters();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const favorite = isFavorite(bull.id);
 
-  const origenBadgeVariant = bull.origen === "propio" ? "origin-propio" : "origin-catalogo";
+  const origenBadgeVariant = getOrigenBadgeVariant(bull.origen);
 
   // Formatear score para display
   const displayScore = (bull.bull_score / 100).toFixed(1);
@@ -37,26 +31,12 @@ export default function BullCardCompact({ bull, rank }: BullCardCompactProps) {
         <div className="flex items-center justify-between">
           <span className="text-xl font-semibold text-text-green">#{rank}</span>
           <div className="flex gap-2">
-            <button
+            <ViewButton
               onClick={() => setIsModalOpen(true)}
-              className="w-8 h-8 bg-brand-green-dark rounded-lg flex items-center justify-center hover:bg-brand-green-dark/80 transition-colors"
-            >
-              <Eye className="w-4 h-4 text-white" strokeWidth={1.5} />
-            </button>
-            <button
-              onClick={() => toggleFavorite(bull.id)}
-              className={cn(
-                "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-                favorite
-                  ? "bg-red-500 hover:bg-red-600"
-                  : "bg-brand-green-dark hover:bg-brand-green-dark/80"
-              )}
-            >
-              <Heart
-                className={cn("w-4 h-4", favorite ? "text-white fill-white" : "text-white")}
-                strokeWidth={1.5}
-              />
-            </button>
+              ariaLabel={`Ver detalles del toro ${bull.caravana}`}
+              size="sm"
+            />
+            <FavoriteButton itemId={bull.id} size="sm" />
           </div>
         </div>
 
@@ -94,7 +74,7 @@ export default function BullCardCompact({ bull, rank }: BullCardCompactProps) {
 
         {/* Badge */}
         <BullBadge variant={origenBadgeVariant}>
-          {bull.origen === "propio" ? "Propio" : "Catálogo"}
+          {ORIGEN_LABELS[bull.origen]}
         </BullBadge>
       </div>
 

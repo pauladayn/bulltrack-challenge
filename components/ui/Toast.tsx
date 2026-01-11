@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { cn } from "@/lib/utils";
+
 import { X, Info } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 interface ToastProps {
   message: string;
@@ -35,20 +37,25 @@ export default function Toast({
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[200] animate-in slide-in-from-bottom-4 fade-in duration-300">
+    <div 
+      role="alert"
+      aria-live="polite"
+      className="fixed bottom-6 right-6 z-[200] animate-in slide-in-from-bottom-4 fade-in duration-300"
+    >
       <div
         className={cn(
           "flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg",
           variantStyles[variant]
         )}
       >
-        <Info className="w-5 h-5 text-brand-green shrink-0" />
+        <Info className="w-5 h-5 text-brand-green shrink-0" aria-hidden="true" />
         <span className="text-sm text-white">{message}</span>
         <button
           onClick={onClose}
-          className="ml-2 p-1 hover:bg-white/10 rounded transition-colors"
+          aria-label="Cerrar notificación"
+          className="ml-2 p-1 hover:bg-white/10 rounded transition-colors cursor-pointer"
         >
-          <X className="w-4 h-4 text-white" />
+          <X className="w-4 h-4 text-white" aria-hidden="true" />
         </button>
       </div>
     </div>

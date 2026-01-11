@@ -1,7 +1,12 @@
 export { default as Button } from "./Button";
 export { default as Checkbox } from "./Checkbox";
-export { default as Toggle } from "./Toggle";
-export { default as SearchInput } from "./SearchInput";
+export { default as Divider } from "./Divider";
+export { default as EditCriteriaButton } from "./EditCriteriaButton";
+export { default as FavoriteButton } from "./FavoriteButton";
 export { default as Modal } from "./Modal";
+export { default as SearchInput } from "./SearchInput";
+export { default as SectionTitle } from "./SectionTitle";
 export { default as Select } from "./Select";
 export { default as Toast } from "./Toast";
+export { default as Toggle } from "./Toggle";
+export { default as ViewButton } from "./ViewButton";
